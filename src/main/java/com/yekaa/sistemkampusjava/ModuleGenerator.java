@@ -1,5 +1,10 @@
 package com.yekaa.sistemkampusjava;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -35,7 +40,7 @@ public class ModuleGenerator {
         // Create repository folder
         createDirectory(modulePath + "/repository");
         createFile(modulePath + "/repository", moduleName + "Repository.java", getRepositoryTemplate(moduleName));
-        createFile(modulePath + "/repository", moduleName + "RepositoryImpl.java", getRepositoryImplTemplate(moduleName));
+        //createFile(modulePath + "/repository", moduleName + "RepositoryImpl.java", getRepositoryImplTemplate(moduleName));
 
 
         // Create service folder
@@ -73,13 +78,16 @@ public class ModuleGenerator {
     public static String getModelTemplate(String moduleName) {
         String modelName = capitalize(moduleName);
         return "@Entity\n" +
-                "public class " + modelName + "Model {}\n";
+                "@Data\n" +
+                "@NoArgsConstructor\n" +
+                "@AllArgsConstructor\n" +
+                "@Builder\n" + "public class " + modelName + "Model {}\n";
     }
 
     public static String getControllerTemplate(String moduleName) {
         String modelName = capitalize(moduleName);
         return "@RestController\n" +
-                "public class " + modelName + "Controller implements " + modelName + "Service {}\n";
+                "public class " + modelName + "Controller {}\n";
     }
 
     public static String getRepositoryTemplate(String moduleName) {
@@ -87,11 +95,11 @@ public class ModuleGenerator {
         return "public interface " + modelName + "Repository {}\n";
     }
 
-    public static String getRepositoryImplTemplate(String moduleName) {
-        String modelName = capitalize(moduleName);
-        return "@Repository\n" +
-                "public class " + modelName + "RepositoryImpl implements " + modelName + "Repository {}\n";
-    }
+//    public static String getRepositoryImplTemplate(String moduleName) {
+//        String modelName = capitalize(moduleName);
+//        return "@Repository\n" +
+//                "public class " + modelName + "RepositoryImpl implements " + modelName + "Repository {}\n";
+//    }
 
     public static String getServiceTemplate(String moduleName) {
         String modelName = capitalize(moduleName);
@@ -106,11 +114,13 @@ public class ModuleGenerator {
 
     public static String getResponseDtoTemplate(String moduleName) {
         String modelName = capitalize(moduleName);
-        return "public class " + modelName + "ResponseDto {}\n";
+        return  "@Data\n" +
+                "public class " + modelName + "ResponseDto {}\n";
     }
 
     public static String getRequestDtoTemplate(String moduleName) {
         String modelName = capitalize(moduleName);
-        return "public class " + modelName + "RequestDto {}\n";
+        return  "@Data\n" +
+                "public class " + modelName + "RequestDto {}\n";
     }
 }
